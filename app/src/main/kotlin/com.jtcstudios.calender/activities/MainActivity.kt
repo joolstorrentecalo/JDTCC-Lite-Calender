@@ -91,7 +91,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         setupOptionsMenu()
         refreshMenuItems()
 
-        checkWhatsNewDialog()
         calendar_fab.beVisibleIf(config.storedView != YEARLY_VIEW && config.storedView != WEEKLY_VIEW)
         calendar_fab.setOnClickListener {
             if (config.allowCreatingTasks) {
@@ -260,8 +259,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
                 R.id.add_anniversaries -> tryAddAnniversaries()
                 R.id.import_events -> tryImportEvents()
                 R.id.export_events -> tryExportEvents()
-                R.id.settings -> launchSettings()
-                R.id.about -> launchAbout()
                 else -> return@setOnMenuItemClickListener false
             }
             return@setOnMenuItemClickListener true
@@ -1185,35 +1182,6 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
         }
     }
 
-    private fun launchSettings() {
-        hideKeyboard()
-        startActivity(Intent(applicationContext, SettingsActivity::class.java))
-    }
-
-    private fun launchAbout() {
-        val licenses = LICENSE_JODA
-
-        val faqItems = arrayListOf(
-            FAQItem(R.string.faq_2_title, R.string.faq_2_text),
-            FAQItem(R.string.faq_5_title, R.string.faq_5_text),
-            FAQItem(R.string.faq_3_title, R.string.faq_3_text),
-            FAQItem(R.string.faq_6_title, R.string.faq_6_text),
-            FAQItem(R.string.faq_1_title, R.string.faq_1_text),
-            FAQItem(R.string.faq_1_title_commons, R.string.faq_1_text_commons),
-            FAQItem(R.string.faq_4_title_commons, R.string.faq_4_text_commons),
-            FAQItem(R.string.faq_4_title, R.string.faq_4_text)
-        )
-
-        if (!resources.getBoolean(R.bool.hide_google_relations)) {
-            faqItems.add(FAQItem(R.string.faq_2_title_commons, R.string.faq_2_text_commons))
-            faqItems.add(FAQItem(R.string.faq_6_title_commons, R.string.faq_6_text_commons))
-            faqItems.add(FAQItem(R.string.faq_7_title_commons, R.string.faq_7_text_commons))
-
-        }
-
-        startAboutActivity(R.string.app_name, licenses, BuildConfig.VERSION_NAME, faqItems, true)
-    }
-
     private fun searchQueryChanged(text: String) {
         mLatestSearchQuery = text
         search_placeholder_2.beGoneIf(text.length >= 2)
@@ -1341,41 +1309,4 @@ class MainActivity : SimpleActivity(), RefreshRecyclerViewListener {
 
         return items
     }
-
-    private fun checkWhatsNewDialog() {
-        arrayListOf<Release>().apply {
-            add(Release(39, R.string.release_39))
-            add(Release(40, R.string.release_40))
-            add(Release(42, R.string.release_42))
-            add(Release(44, R.string.release_44))
-            add(Release(46, R.string.release_46))
-            add(Release(48, R.string.release_48))
-            add(Release(49, R.string.release_49))
-            add(Release(51, R.string.release_51))
-            add(Release(52, R.string.release_52))
-            add(Release(54, R.string.release_54))
-            add(Release(57, R.string.release_57))
-            add(Release(59, R.string.release_59))
-            add(Release(60, R.string.release_60))
-            add(Release(62, R.string.release_62))
-            add(Release(67, R.string.release_67))
-            add(Release(69, R.string.release_69))
-            add(Release(71, R.string.release_71))
-            add(Release(73, R.string.release_73))
-            add(Release(76, R.string.release_76))
-            add(Release(77, R.string.release_77))
-            add(Release(80, R.string.release_80))
-            add(Release(84, R.string.release_84))
-            add(Release(86, R.string.release_86))
-            add(Release(88, R.string.release_88))
-            add(Release(98, R.string.release_98))
-            add(Release(117, R.string.release_117))
-            add(Release(119, R.string.release_119))
-            add(Release(129, R.string.release_129))
-            add(Release(143, R.string.release_143))
-            add(Release(155, R.string.release_155))
-            add(Release(167, R.string.release_167))
-            checkWhatsNew(this, BuildConfig.VERSION_CODE)
-        }
     }
-}
